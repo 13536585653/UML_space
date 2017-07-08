@@ -1,0 +1,388 @@
+
+-- 1、auto-generated definition（管理员表）
+create table ADMIN_INFO
+(
+	ADMIN_ID int not null auto_increment
+		primary key,
+	ADMIN_NAME varchar(255) null,
+	ADMIN_PASSWORD varchar(255) null
+)
+;
+
+
+
+--2、 auto-generated definition（电影院表）
+create table CINEMA_INFO
+(
+	CINEMA_ID int not null auto_increment
+		primary key,
+	CINEMA_ADDRESS varchar(255) null,
+	CINEMA_NAME varchar(255) null,
+	CINEMA_PHONE varchar(255) null
+)
+;
+
+
+
+-- 3、auto-generated definition（电影表）
+create table FILM_INFO
+(
+	FILM_ID int not null auto_increment
+		primary key,
+	FILM_DIRECTOR varchar(255) null,
+	FILM_DRAMA varchar(255) null,
+	FILM_NAME varchar(255) null,
+	FILM_POSTER varchar(255) null,
+	FILM_SHOWING int null,
+	FILM_PREPARE int null,
+	FILM_UPCOMING int null
+)
+;
+
+
+
+-- 4、auto-generated definition（用户信息表）
+create table USER_INFO
+(
+	USER_ID int not null auto_increment
+		primary key,
+	USER_PHONE varchar(255) null,
+	USER_NAME varchar(255) null,
+	USER_PASSWORD varchar(255) null
+)
+;
+
+-- 5、auto-generated definition（演员表）
+create table ACTOR_INFO
+(
+	ACTOR_ID int not null auto_increment
+		primary key,
+	ACTOR_NAME varchar(255) null,
+	ACTOR_PORTRAIT varchar(255) null,
+	ACTOR_ROLE varchar(255) null,
+	FILM_ACTOR int null,
+	constraint FKodcwrkaushpcvatjf8vr7exf6
+		foreign key (FILM_ACTOR) references film_info (FILM_ID) on delete set null on update cascade
+)
+;
+
+create index FKodcwrkaushpcvatjf8vr7exf6
+	on ACTOR_INFO (FILM_ACTOR)
+;
+
+
+
+-- 6、auto-generated definition（电影院所在区域表）
+create table CINEMA_AREA
+(
+	AREA_ID int not null auto_increment
+		primary key,
+	AREA_AREA varchar(255) null,
+	CINEMA_AREA int null,
+	constraint FKawno5vrdtohwq7t3stm2c4dip
+		foreign key (CINEMA_AREA) references cinema_info (CINEMA_ID)
+	--下面的是可以设置外键为空和级联更新操作
+			on update cascade on delete set null
+)
+;
+
+create index FKawno5vrdtohwq7t3stm2c4dip
+	on CINEMA_AREA (CINEMA_AREA)
+;
+
+-- 7、auto-generated definition（电影院特色表）
+create table CINEMA_FEATURE
+(
+	FEATURE_ID int not null auto_increment
+		primary key,
+	FEATURE_FEATURE varchar(255) null,
+	CINEMA_FEATURES int null,
+	constraint FKbsg8aoo47nqr1dow97n6sp8j7
+		foreign key (CINEMA_FEATURES) references cinema_info (CINEMA_ID) on delete set null on update cascade
+)
+;
+
+create index FKbsg8aoo47nqr1dow97n6sp8j7
+	on CINEMA_FEATURE (CINEMA_FEATURES)
+;
+
+
+-- 8、auto-generated definition（电影院服务表）
+create table CINEMA_SERVICE
+(
+	SERVICE_ID int not null auto_increment
+		primary key,
+	SERVICE_SERVICE varchar(255) null,
+	CINEMA_SERVICE int null,
+	constraint FKfnnhlwpuxhjxsadeyjc8690rg
+		foreign key (CINEMA_SERVICE) references cinema_info (CINEMA_ID) on delete set null on update cascade
+)
+;
+
+create index FKfnnhlwpuxhjxsadeyjc8690rg
+	on CINEMA_SERVICE (CINEMA_SERVICE)
+;
+
+-- 9、auto-generated definition（电影评价表）
+create table EVALUATE_INFO
+(
+	EVALUATE_ID int not null auto_increment
+		primary key,
+	EVALUATE_EVALUATE varchar(255) null, --（评价）
+	FILM_EVALUATE int null,		--（外键）
+	USER_EVALUATES int null,	--（外键）
+	constraint FKcu7eyoky6mybad864uk6jf580
+		foreign key (FILM_EVALUATE) references film_info (FILM_ID) on delete set null on update cascade,
+	constraint FK9l4xrdx0mnvbtoh6tga4qf35d
+		foreign key (USER_EVALUATES) references user_info (USER_ID) on delete set null on update cascade
+)
+;
+
+create index FK9l4xrdx0mnvbtoh6tga4qf35d
+	on EVALUATE_INFO (USER_EVALUATES)
+;
+
+create index FKcu7eyoky6mybad864uk6jf580
+	on EVALUATE_INFO (FILM_EVALUATE)
+;
+
+-- 10、auto-generated definition（电影地区表）
+create table FILM_AREA
+(
+	AREA_ID int not null auto_increment
+		primary key,
+	AREA_AREA varchar(255) null,
+	FILM_AREA int null,
+	constraint FK4kpjcxxiye9hqibmwkq2btx1e
+		foreign key (FILM_AREA) references film_info (FILM_ID) on delete set null on update cascade
+)
+;
+
+create index FK4kpjcxxiye9hqibmwkq2btx1e
+	on FILM_AREA (FILM_AREA)
+;
+
+-- 11、auto-generated definition（电影与电影院表）
+create table FILM_CINEMA
+(
+  FC_ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  FC_CINEMA int not null,
+  FC_FILM int not null,
+  constraint FKp7yu3xx3tirsk2atwfvohfas3
+  foreign key (FC_CINEMA) references cinema_info (CINEMA_ID),
+  constraint FKhpm7bbxkmgaipwdlpmo53mt5j
+  foreign key (FC_FILM) references film_info (FILM_ID)
+)
+;
+create index FKp7yu3xx3tirsk2atwfvohfas3
+  on FILM_CINEMA (FC_CINEMA)
+;
+create index FKhpm7bbxkmgaipwdlpmo53mt5j
+  on FILM_CINEMA (FC_FILM)
+;
+
+
+
+
+-- 12、auto-generated definition（座位表）
+create table RANK_INFO
+(
+	RANK_ID int not null auto_increment
+		primary key,
+	RANK_NUMBER int null, 	--（座位编号）
+	PLACE_STATE int null	--（座位状态）
+)
+;
+
+
+
+
+-- 13、auto-generated definition（排表）
+create table ROW_INFO
+(
+	ROW_ID int not null auto_increment
+		primary key,
+	ROW_NUMBER int null,
+	ROW_RANK int null,
+	constraint FKdsfd5vrdtodda7t3stm2c4dip
+		foreign key (ROW_RANK) references bookingfilm.rank_info (RANK_ID)
+			on update set null on delete cascade
+)
+;
+
+create index FKdsfd5vrdtodda7t3stm2c4dip
+	on ROW_INFO (ROW_RANK)
+;
+
+
+
+
+-- 14、auto-generated definition（影厅表）
+create table HALL_INFO
+(
+	HALL_ID int not null auto_increment
+		primary key,
+	PLACE_NUMBER int null,
+	ROW_HALL int null,
+	constraint FKdsfd5vrdtohwq7t3stm2c4dip
+		foreign key (ROW_HALL) references bookingfilm.row_info (ROW_ID)
+			on update set null on delete cascade
+)
+;
+
+create index FKdsfd5vrdtohwq7t3stm2c4dip
+	on HALL_INFO (ROW_HALL)
+;
+
+
+
+
+-- 15、auto-generated definition（电影类型表）
+create table FILM_TYPE
+(
+	TYPE_ID int not null auto_increment
+		primary key,
+	TYPE_TYPE varchar(255) null,
+	FILM_TYPES int null,
+	constraint FKf4qixag11y8ihygukc5h29i2s
+		foreign key (FILM_TYPES) references film_info (FILM_ID) on delete set null on update cascade
+)
+;
+
+create index FKf4qixag11y8ihygukc5h29i2s
+	on FILM_TYPE (FILM_TYPES)
+;
+
+
+
+
+-- 16、auto-generated definition（电影场次表）
+create table SESSION_INFO
+(
+  SESSION_ID int not null auto_increment
+    primary key,
+  SESSION_LANGUAGE varchar(255) null,
+  SESSION_DATE datetime null,
+  SESSION_TICKET int null,
+  CINEMA_SESSION int null,
+  FILM_SESSION int null,
+  HALL_SESSION int null,
+  constraint FKb2mb1bxqf5rsoqfu0r3j6e5gh
+  foreign key (CINEMA_SESSION) references bookingfilm.cinema_info (CINEMA_ID)
+    on update cascade on delete set null,
+  constraint FKq6bkbfd44gcyxijb6twvdbgfo
+  foreign key (FILM_SESSION) references bookingfilm.film_info (FILM_ID)
+    on update cascade on delete set null,
+  constraint FKb2mb1bxqf5fhgqfu0r3j6e5gh
+  foreign key (HALL_SESSION) references bookingfilm.hall_info (HALL_ID)
+    on update cascade on delete set null
+)
+;
+
+create index FKb2mb1bxqf5rsoqfu0r3j6e5gh
+  on SESSION_INFO (FILM_SESSION)
+;
+
+create index FKq6bkbfd44gcyxijb6twvdbgfo
+  on SESSION_INFO (CINEMA_SESSION)
+;
+create index FKb2mb1bxqf5fhgqfu0r3j6e5gh
+  on SESSION_INFO (CINEMA_SESSION)
+;
+
+--在SESSION_INFO（场次表）中添加一个字段（放映时间）
+alter table table1 add SHOW_TIME varchar(10) not Null;
+
+
+-- 17、auto-generated definition（用户收藏表）
+create table USER_COLLECT
+(
+	COLLECT_ID int not null auto_increment
+		primary key,
+	COLLECT_COLLECTION varchar(255) null,
+	COLLECT_FILM int null,
+	USER_COLLECTION int null,
+	constraint FK1kqvoi9m1b6ss6s6s3026gmer
+		foreign key (COLLECT_FILM) references film_info (FILM_ID) on delete cascade on update cascade,
+	constraint FK5ccptmqqh8blyhi2cqessvdrv
+		foreign key (USER_COLLECTION) references user_info (USER_ID) on delete cascade on update cascade
+)
+;
+
+create index FK1kqvoi9m1b6ss6s6s3026gmer
+	on USER_COLLECT (COLLECT_FILM)
+;
+
+create index FK5ccptmqqh8blyhi2cqessvdrv
+	on USER_COLLECT (USER_COLLECTION)
+;
+
+
+
+
+--18、auto-generated definition（用户看过的电影表）
+create table USER_KNEW
+(
+	KNEW_ID int not null auto_increment
+		primary key,
+	KNEW_FILM int null,
+	USER_KNEW int null,
+	constraint FKj32au5tynoqw2rn0hp7phqkst
+		foreign key (KNEW_FILM) references film_info (FILM_ID) on delete cascade on update cascade,
+	constraint FKb9uus9cf71nuthfleq8onhu34
+		foreign key (USER_KNEW) references user_info (USER_ID) on delete cascade on update cascade
+)
+;
+
+create index FKb9uus9cf71nuthfleq8onhu34
+	on USER_KNEW (USER_KNEW)
+;
+
+create index FKj32au5tynoqw2rn0hp7phqkst
+	on USER_KNEW (KNEW_FILM)
+;
+
+
+
+
+-- 19、auto-generated definition（用户消息表）
+create table USER_MESSAGE
+(
+	MESSAGE_ID int not null auto_increment
+		primary key,
+	MESSAGE_MESSAGE varchar(255) null,
+	USER_MESSAGE int null,
+	constraint FK7nsypaupvve4tqoih601utpjl
+		foreign key (USER_MESSAGE) references user_info (USER_ID) on delete set null on update cascade
+)
+;
+
+create index FK7nsypaupvve4tqoih601utpjl
+	on USER_MESSAGE (USER_MESSAGE)
+;
+
+
+
+
+--20、中间表 auto-generated definition（用户想要看的电影表）
+create table USER_WANT
+(
+	WANT_ID int not null auto_increment
+		primary key,
+	WANT_FILM int null,
+	USER_WANT int null,
+	constraint FKe6gd725p1yk371hqw2dn956mv
+		foreign key (WANT_FILM) references film_info (FILM_ID) on delete cascade on update cascade,
+	constraint FKkaei0cs08ikh7hfncf49vwttg
+		foreign key (USER_WANT) references user_info (USER_ID) on delete cascade on update cascade
+)
+;
+
+create index FKe6gd725p1yk371hqw2dn956mv
+	on USER_WANT (WANT_FILM)
+;
+
+create index FKkaei0cs08ikh7hfncf49vwttg
+	on USER_WANT (USER_WANT)
+;
+

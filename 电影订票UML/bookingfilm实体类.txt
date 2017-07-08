@@ -1,0 +1,166 @@
+
+用户信息 ( User )：
+userId		int
+userName	String
+userPassword	String
+phoneNum	String
+userWants	Set<UserWant>
+userKnews	Set<UserKnew>
+userEvaluate	Set<Evaluate>
+userMessage	Set<UserMessage>
+userCollect	Set<UserCollect>
+
+
+用户想看（ UserWant ）：
+wantId		int
+film		Film
+user		User
+
+
+用户看过（ UserKnew ）：
+knewId		int
+film		Film
+user		User
+
+
+用户消息( UserMessage )：
+messageId	int
+message		String 
+user		User
+
+
+用户收藏( UserCollect )：
+collectionId	int
+collection	String(收藏的电影名称)
+user		User
+
+
+用户订单( UserOrders )：
+orderId		int
+film		File	      (一对一关联，电影名）
+filmTypes	Set<FilmType> ( 一对多关联，电影类型）
+film 		Film （一对一关联，电影时长，票价）
+cinema		Cinema(一对一关联，影院名）如诚丰影院（斗门店）
+cinemaHall	CinemaHall（一对一关联，影厅名，座位）
+filmSession 	FilmSession （一对一关联，电影版本，播放日期）
+总价 总价=座位数*票价
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+管理员信息( Admin )：
+adminId		int
+adminName	String					
+adminPassword	String
+
+
+
+电影院( Cinema )：
+cinemaId	int
+cinemaName	String
+cinemaAddress	String
+cinemaPhoneNum	String
+services	Set<CinemaService>(电影服务)
+features	Set<CinemaFeature>(电影特效，特色)
+area		CinemaArea	  (电影院所在区域：例如金湾区，香洲区...)
+films		Set<Film>	  (关联的电影)
+sessions	Set<FilmSession>  (电影场次）
+
+影厅（CinemaHall）
+hallId         	int 
+placeNumber  	int 房号编码
+hallRow  	Set<HallRow> （排数）
+filmSession     Set<FilmSession> （场次）
+
+厅排（HallRow）
+rowId 		int ID
+RowNumber 	int 排编码
+HallRow<Set>	Set<HallRank>
+
+厅列（HallRank）
+rankId		int 
+rankNumber 	int 列编码
+placeState 	int 座位状态 0（坏的），1（可使用），2（已使用）
+
+
+电影院服务( CinemaService )：
+serviceId	int
+service		String
+
+
+电影特效，特色( CinemaFeature )：
+featureId	int
+cinemaFeature	String
+
+
+电影院所在区域( CinemaArea )：
+areaId		int
+area		String
+
+
+电影场次（ FilmSession )：
+sessionId	int
+sessionDate	Date   （场次）
+showTime	String （放映时间）
+languageVersion	String （语言版本）
+sessionTicket	int    （票价）
+cinema		Cinema （电影院名）
+film		Film(电影名)
+cinemaHall	Set<CinemaHall> （一对多，影厅）
+
+
+电影信息（ Film )：
+filmId		int
+filmName	String					 (电影名字）
+filmTypes	Set<FilmType> ( 一对多关联 )		 (电影类型）
+filmDirector	String					 (该片导演）
+filmPoster	String					（电影海报）
+filmTime	String					（电影时长）
+filmArea	FilmArea				（电影地区，就是该片属于哪个地区的）
+actors		Set<Actor>				（该片的演员）
+cinemas		Set<Cinema>				（支持该片上映的影院）
+filmDrama	String（ 表中数据类型用AreaText ）	（该片的简介）
+evaluates	Set<Evaluate>				（该片的影评）
+（以下三个属性默认为0，值为 1 时，表示该片拥有此属性)
+（三个属性只能拥有其中一个）
+hotShowing	int(热映电影，可购票）
+upcoming	int(即将上映，可预先售票)
+prepareShowing	int(待映电影，可点击 “想看”）
+
+
+演员表（ Actor )：
+actorId		int
+actorName	String
+actorPortrait	String(演员类型)
+actorRole 	String(演员角色)
+film		Film
+
+
+电影类型（ FilmType )：
+typeId		int
+type		String
+file_id		Set<Film>
+
+电影地区（ FilmArea )：
+areaId		int
+area		String
+
+
+电影评价（ Evaluate )：
+evaluateId	int
+evaluate	String（ 表中数据类型用AreaText ）
+film		Film
+user		User
+
